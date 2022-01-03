@@ -35,10 +35,6 @@ func parseFile (lines []string) (mp [][]byte) {
 	return
 }
 
-type xy struct {
-	x, y int
-}
-
 const emp = '.' // empty
 const trs = '|' // trees
 const yrd = '#' // lumber yard
