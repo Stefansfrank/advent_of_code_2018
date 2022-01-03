@@ -1,0 +1,53 @@
+#ip 3
+
+0  - addi 3 16 3 | r3 += 16 | goto 17 (runs only once at the very beginning)
+----------------------------------------------------------------------------
+
+1  - seti 1 2 5  | r5 = 1          | starts outer loop (r5 from 1 to r4)          
+2  - seti 1 3 2  | r2 = 1          | starts inner loop (r2 from 1 to r4)
+
+3  - mulr 5 2 1  | r1 = r5 * r2    | loop content
+4  - eqrr 1 4 1  | r1 = (r1 == r4) | if r5*r2 == r4, r5 is added to r0 
+5  - addr 1 3 3  | r3 += r1        | this is the only modification of r0 
+6  - addi 3 1 3  | r3 += 1         | 
+7  - addr 5 0 0  | r0 = r0 + r5    |
+
+8  - addi 2 1 2  | r2 += 1         | increment r2
+9  - gtrr 2 4 1  | r1 = (r2 > r4)  | if r2 <= r4 then goto 3
+10 - addr 3 1 3  | r3 += r1        | closes inner loop
+11 - seti 2 5 3  | r3 = 2          |
+
+12 - addi 5 1 5  | r5 += 1         | increment r5
+13 - gtrr 5 4 1  | r1 = (r5 > r4)  | if r5 <= r4 then goto 2 (i.e. set r2 to 1)
+14 - addr 1 3 3  | r3 += r1        | closes outer loop
+15 - seti 1 2 3  | r3 = 1          |
+
+16 - mulr 3 3 3  | r3 *= r3        | end   
+
+-----------------------------------------------------------------------------
+---------- Everything below runs once to initialize r4 and then starts ------
+---------- the outer loop above ---------------------------------------------
+
+17 - addi 4 2 4  | r4 += 2  | runs first from here
+18 - mulr 4 4 4  | r4 *= r4 |
+19 - mulr 3 4 4  | r4 *= r3 |
+20 - muli 4 11 4 | r4 *= 11 | r4 = 836
+21 - addi 1 6 1  | r1 += 6  |
+22 - mulr 1 3 1  | r1 *= r3 |
+23 - addi 1 21 1 | r1 += 21 | r1 = 153
+24 - addr 4 1 4  | r4 += r1 | r4 = 989
+25 - addr 3 0 3  | r3 += r0 | 
+26 - seti 0 3 3  | r3 = 0   | start outer loop at 1 for part 1
+27 - setr 3 4 1  | r1 = r3  | r1 = 27 
+28 - mulr 1 3 1  | r1 *= r3 |
+29 - addr 3 1 1  | r1 += r3 |
+30 - mulr 3 1 1  | r1 *= r3 |
+31 - muli 1 14 1 | r1 *= 14 |
+32 - mulr 1 3 1  | r1 *= r3 | r1 = 10550400
+33 - addr 4 1 4  | r4 += r1 | r4 = 10551389
+34 - seti 0 3 0  | r0 = 0   | r0 = 0 (was set to 1 if it ended here)
+35 - seti 0 7 3  | r3 = 0   | start outer loop at 1 for part 2
+
+The code sets r4 to 989 for part1 and to 10551389 for part 2
+it then loops r2 and r5 (nested) from 1 to r4 and adds r5 to r0 whenever r2 * r5 == r4
+in other words, it adds all posible integers that can generate r4 by multiplying one other integer 
