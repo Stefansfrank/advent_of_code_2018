@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 	"os"
 	"bufio"
 	"time"
@@ -20,39 +19,14 @@ func readTxtFile (name string) (lines []string) {
 	return
 }
 
-func atoi(s string) (i int) {
-	i, _ = strconv.Atoi(s)
-	return
-}
-
-func min(i, j int) int {
-	if i<j {
-		return i
-	}
-	return j
-}
-
-func max(i, j int) int {
-	if i>j {
-		return i
-	}
-	return j
-}
-
 // input parser 
 func parseFile (lines []string) (mp [][]byte) {
 
 	mp = make([][]byte, len(lines)+2)
 	mp[0] = make([]byte, len(lines[0])+2)
 	mp[len(lines)+1] = make([]byte, len(lines[0])+2)
-	// for x, _ := range mp[0] {
-	// 	mp[0][x] = '.'
-	// 	mp[len(lines)+1][x] = '.'
-	// }
 	for y, line := range lines {
 		mp[y+1] = make([]byte, len(line)+2)
-		//mp[y+1][0] = '.'
-		//mp[y+1][len(line)+1] = '.'
 		for x, c := range line {
 			mp[y+1][x+1] = byte(c)
 		}
